@@ -288,16 +288,17 @@ function isCreditCardNumber(ccn) {
   const ccnStr = ccn.toString().split('').reverse().join('');
   for (let i = 0; i < ccnStr.length; i += 1) {
     if (i % 2 !== 0) {
-      const tmp = ccnStr[i] * 2;
+      const tmp = Number(ccnStr[i] * 2);
       if (tmp >= 10) {
-        result += tmp - 9;
+        result += Number(tmp - 9);
       } else {
-        result += tmp;
+        result += Number(tmp);
       }
+    } else {
+      result += Number(ccnStr[i]);
     }
   }
-  return !!(result % 10);
-  // throw new Error('Not implemented');
+  return !(result % 10);
 }
 
 /**
@@ -314,8 +315,12 @@ function isCreditCardNumber(ccn) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  const strArr = num.toString().split('');
+  // eslint-disable-next-line no-return-assign, no-param-reassign
+  let result = strArr.reduce((acc, currentValue) => acc += Number(currentValue), 0);
+  // eslint-disable-next-line no-return-assign
+  return (result >= 10 ? result = Math.trunc(result / 10) + (result % 10) : result);
 }
 
 
